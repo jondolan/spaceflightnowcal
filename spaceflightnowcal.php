@@ -60,7 +60,6 @@ if ($rawhtml === FALSE) { // if we failed at getting the page for some reason...
 }
 else { // if we succeeded, then parse the HTML into a Simple HTML DOM object  
     $pagedata = str_get_html($rawhtml);
-    //$pagedata = file_get_html("/var/www/other/spaceflightcal/file.html");
 }
 
 
