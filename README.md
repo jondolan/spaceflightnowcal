@@ -2,7 +2,7 @@
 
 This script parses http://spaceflightnow.com/launch-schedule/ into a Google Calendar.
 
-More information can be found [here](http://www.jondolan.me/blog/projects/2015/02/spaceflightnow-calendar/)
+More information can be found [here](http://www.jondolan.me/spaceflightnow-calendar/)
 
 
 External code utilized:
