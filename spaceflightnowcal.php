@@ -15,7 +15,7 @@
 
 //---   Requirements ---//
 require_once 'simple_html_dom.php'; // http://sourceforge.net/projects/simplehtmldom/
-require_once 'google-api-php-client/autoload.php'; // https://github.com/google/google-api-php-client
+require_once 'google-api-php-client/src/Google/autoload.php'; // https://github.com/google/google-api-php-client
 
 
 //---- Global settings variables ----//
@@ -191,7 +191,9 @@ foreach ($launches as $launch) { // for each launch in the array that we just pu
 
 function updateEvent(&$event, $updates, $allday) { // update events based on an array passed
     global $cal, $calendarId, $timezone; // global stuff needed to change calendar
-    
+
+    $event->sequence = $event->sequence + 1; // increment the number of times the event has been updated
+
     if (!empty($updates["summary"])) // if we have a summary update
         $event->setSummary($updates["summary"]);
     if (!empty($updates["description"])) // if we have a description update
