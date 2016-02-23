@@ -18,14 +18,8 @@ require_once 'simple_html_dom.php'; // http://sourceforge.net/projects/simplehtm
 require_once 'google-api-php-client/src/Google/autoload.php'; // https://github.com/google/google-api-php-client
 
 
-//---- Global settings variables ----//
-
-//-- Change these! --//
-// go to the Google Developer's Console (htpp://console.developers.google.com), create a project, enable the Calendar API, and then create a new OAuth client ID in the credentials tab to obtain these
-$clientId = 'YOUR_CLIENT_ID_HERE';
-$clientEmailAddress = 'YOUR_PROJECT_EMAIL_ADDRESS_HERE';
-$keyFilePath = 'YOUR_KEYFILE_LOCATION_PATH_HERE'; // download the key from the console and then specify the filename here
-$calendarId = "YOUR_CALENDAR_ID_HERE"; // create your own calendar in Google Calendars, find the "Calendar ID" in the settings for the Calendar and be sure to add the email adress you specified above ($email_address) in "Share Settings" to have full calendar access!
+//---- Global settings variables - edit in file! ----//
+require_once 'authenticationInfo.php';
 
 
 //-- No need to change these! --//
@@ -140,7 +134,7 @@ foreach($pagedata->find('div') as $element) { // for each DIV found in the page
                
         // push this launch info to the end of the launches array
         array_push($launches, [
-            "summary" => $name,
+            "summary" => $name . " at " . $location,
             "description" => $missionDescription,
             "location" => $location,
             "start" => $start,
@@ -162,7 +156,7 @@ foreach ($launches as $launch) { // for each launch in the array that we just pu
             $preexisting = true; // the event does already exist
             $different = []; // an array to keep track of what's different
             foreach ($launch as $key => $value) { // check each of the fields to check for differences 
-                if ($key != "allday") { // we don't care to check t
+                if ($key != "allday") { // we don't care to check it
                     if ($event[$key] == $value) { // check for similarity
                         continue; // this is good, no update for this key
                     } elseif (($key == "end" || $key == "start") && ($event[$key]["date"] == $value || $event[$key]["dateTime"] == $value)) { // the date time is slightly harder to compare, this is a little hacky but it's the easiest...
@@ -257,6 +251,6 @@ function createCalEvent($launch) { // create calendar events
 }
 
 //---- Spit out some information ----//
-echo "\n\nThe calendar had " . sizeof($eventList) . " items. Now it has " . sizeof($cal->events->listEvents($calendarId)->getItems()) . "items.";
+echo "\n\nThe calendar had " . sizeof($eventList) . " items. Now it has " . sizeof($cal->events->listEvents($calendarId)->getItems()) . " items.";
 echo "\nThere were " . $numlaunches . " launches detected, of which " . sizeof($launches) . " had at least a valid date and were able to be parsed for changes\n\n";
 ?>
